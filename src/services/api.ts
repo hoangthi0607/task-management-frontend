@@ -10,7 +10,11 @@ import axios, {
 } from "axios";
 import { authService } from "@/services/authService";
 
-const baseURL = import.meta.env.VITE_API_URL || "/api";
+const rawUrl = (import.meta.env.VITE_API_URL || "/api").toString().trim();
+let baseURL = rawUrl.replace(/\/+$|\s+/g, "");
+if (!baseURL.toLowerCase().endsWith("/api")) {
+    baseURL = `${baseURL}/api`;
+}
 
 export interface StoredAuth {
     user?: Record<string, unknown> | null;
